@@ -1,0 +1,58 @@
+<div xmlns:th="http://www.thymeleaf.org">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">WEB PROGRAMMING SHOP</h1>
+            <h3 class="jumbotron-heading">All shopping carts</h3>
+        </div>
+    </section>
+
+    <div class="container mb-4">
+        <div class="row">
+            <div class="m-5">
+                <a th:href="@{/shopping-cart}" class="btn btn-link">Back</a>
+            </div>
+            <div class="col-12" th:if="${carts.size() > 0}">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Date Created</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="cart : ${carts}">
+                            <td th:text="${cart.getDateCreated()}"></td>
+                            <td th:text="${cart.getUser() != null} ? ${cart.getUser().getUsername()} : 'No User'"></td>
+                            <td th:text="${cart.getStatus()}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <h2>Count number of carts for a user, select username</h2>
+        <form method="POST" action="/shopping-cart/count">
+            <div class="form-group">
+                <select id="username" name="username" class="form-control">
+                    <option th:each="user : ${users}" th:value="${user.getUsername()}"
+                            th:text="${user.getUsername()}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" name="Count">
+            </div>
+        </form>
+
+        <div th:if="${count}">
+            User with username <span th:text="${username}"></span> has completed <span th:text="${count}"></span>
+            successful orders
+        </div>
+        <div th:if="${count == null || count == 0}">
+            User with username <span th:text="${username}"></span> has not completed an order yet
+        </div>
+    </div>
+</div>
+</div>
